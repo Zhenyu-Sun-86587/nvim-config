@@ -21,19 +21,26 @@ return {
       { "<leader>ri", "<cmd>RemoteInfo<cr>", desc = "Remote-SSH: Info (连接状态信息)" },
     },
     opts = {
-      -- 远程主机配置，使用系统自带的 SSH 客户端
-      ssh_prompts = {
-        {
-          match = "password:",
-          type = "secret",
-          value_type = "static",
-          value = "",
+      ssh_config = {
+        ssh_binary = "ssh",
+        scp_binary = "scp",
+        -- 针对 Windows 路径进行正斜杠规范化，避免 sh 展开时转义丢失
+        ssh_config_file_paths = {
+          vim.fs.normalize(vim.fn.expand("~/.ssh/config")),
         },
-        {
-          match = "continue connecting (yes/no/[fingerprint])?",
-          type = "plain",
-          value_type = "static",
-          value = "yes",
+        ssh_prompts = {
+          {
+            match = "password:",
+            type = "secret",
+            value_type = "static",
+            value = "",
+          },
+          {
+            match = "continue connecting (yes/no/[fingerprint])?",
+            type = "plain",
+            value_type = "static",
+            value = "yes",
+          },
         },
       },
     },
